@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Habex – Build Habits. Compete with Friends. Level Up Together.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --accent: #7c5cfc;
+    --accent2: #fc5c7d;
+    --accent3: #56ccf2;
+    --text: #f0f0ff;
+    --muted: #8888aa;
+    --border: rgba(124,92,252,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(124,92,252,0.15) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 80% 70%, rgba(252,92,125,0.1) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(86,204,242,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(124,92,252,0.12);
+    border: 1px solid rgba(124,92,252,0.3);
+    border-radius: 100px;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(124,92,252,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,92,252,0.4); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.9rem 2rem;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); background: rgba(124,92,252,0.05); }
+
+  /* FEATURES */
+  .section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 540px;
+    margin-bottom: 3rem;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .feature-card:hover { transform: translateY(-4px); border-color: rgba(124,92,252,0.5); }
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .feature-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .feature-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+  /* STATS */
+  .stats-band {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 4rem 2rem;
+  }
+  .stats-inner {
+    max-width: 900px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; gap: 2rem;
+    justify-content: space-around; text-align: center;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat-label { color: var(--muted); font-size: 0.85rem; margin-top: 0.25rem; }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(124,92,252,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  .cta-section p { color: var(--muted); margin-bottom: 2rem; font-size: 1.05rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text); }
+  .footer-copy { color: var(--muted); font-size: 0.8rem; }
+
+  /* LEGAL PAGES */
+  .legal-page {
+    display: none;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 8rem 2rem 4rem;
+  }
+  .legal-page.active { display: block; }
+  .legal-page h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+  .legal-date { color: var(--muted); font-size: 0.85rem; margin-bottom: 3rem; }
+  .legal-page h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 2.5rem 0 0.75rem;
+    color: var(--accent);
+  }
+  .legal-page p, .legal-page li {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 0.75rem;
+  }
+  .legal-page ul { padding-left: 1.5rem; }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: var(--accent); text-decoration: none;
+    font-size: 0.9rem; margin-bottom: 2rem; cursor: pointer;
+    background: none; border: none; font-family: 'DM Sans', sans-serif;
+  }
+  .main-page { display: block; }
+  .main-page.hidden { display: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .hero-btns { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo" onclick="showPage('home')" style="cursor:pointer">Habex</span>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="javascript:void(0)" onclick="showPage('tos')">Terms</a>
+    <a href="javascript:void(0)" onclick="showPage('privacy')">Privacy</a>
+  </div>
+</nav>
+
+<!-- MAIN PAGE -->
+<div class="main-page" id="main-page">
+
+  <section class="hero">
+    <div class="hero-badge">🚀 Coming Soon to Android</div>
+    <h1>Build Habits.<br><span>Level Up</span> Together.</h1>
+    <p>The social fitness habit app that turns your daily routines into a competitive game. Compete with friends, climb city leaderboards, and grow stronger together.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="#">Join the Waitlist</a>
+      <a class="btn-secondary" href="#features">Learn More</a>
+    </div>
+  </section>
+
+  <section class="stats-band">
+    <div class="stats-inner">
+      <div>
+        <div class="stat-num">🔥</div>
+        <div class="stat-label">Daily Streak Tracking</div>
+      </div>
+      <div>
+        <div class="stat-num">🏙️</div>
+        <div class="stat-label">City Leaderboards</div>
+      </div>
+      <div>
+        <div class="stat-num">👥</div>
+        <div class="stat-label">Crew Competitions</div>
+      </div>
+      <div>
+        <div class="stat-num">⚡</div>
+        <div class="stat-label">XP & Level System</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything you need to<br>stay consistent</h2>
+    <p class="section-sub">Habex combines the best of habit tracking, social competition, and fitness community into one powerful app.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">🔥</span>
+        <h3>Streak System</h3>
+        <p>Build powerful daily habits with streak tracking. Miss a day and your streak resets — the pressure keeps you motivated.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🏆</span>
+        <h3>City Leaderboards</h3>
+        <p>Compete with fitness enthusiasts in your city. Climb the local rankings and claim the top spot in your area.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">👥</span>
+        <h3>Crew Battles</h3>
+        <p>Form crews with your friends and compete together. Team accountability makes everyone push harder.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🗺️</span>
+        <h3>Running Routes</h3>
+        <p>Discover and share running routes in your city. Track your runs and see where other Habex athletes train.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📍</span>
+        <h3>Gym Check-ins</h3>
+        <p>Check in at local gyms and see who else is training nearby. Build your local fitness community.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">⚡</span>
+        <h3>XP & Levels</h3>
+        <p>Earn XP for every completed habit. Level up your profile and unlock exclusive borders and badges.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to level up<br>your habits?</h2>
+    <p>Join the waitlist and be first to know when Habex launches.</p>
+    <a class="btn-primary" href="#">Get Early Access</a>
+  </section>
+
+  <footer>
+    <span class="footer-logo">Habex</span>
+    <div class="footer-links">
+      <a href="javascript:void(0)" onclick="showPage('tos')">Terms of Service</a>
+      <a href="javascript:void(0)" onclick="showPage('privacy')">Privacy Policy</a>
+      <a href="mailto:contact@habexapp.com">Contact</a>
+    </div>
+    <p class="footer-copy">© 2025 Habex. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<!-- TERMS OF SERVICE PAGE -->
+<div class="legal-page" id="tos-page">
+  <button class="back-btn" onclick="showPage('home')">← Back to Habex</button>
+  <h1>Terms of Service</h1>
+  <p class="legal-date">Last updated: January 1, 2025</p>
+
+  <h2>1. Acceptance of Terms</h2>
+  <p>By downloading, installing, or using the Habex mobile application ("App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, do not use the App.</p>
+
+  <h2>2. Description of Service</h2>
+  <p>Habex is a social fitness habit tracking application that allows users to track daily habits, compete with friends and local users, join crews, discover running routes, and check in at gyms. The App may integrate with third-party platforms including TikTok for content sharing purposes.</p>
+
+  <h2>3. User Accounts</h2>
+  <p>To use Habex, you must create an account. You are responsible for:</p>
+  <ul>
+    <li>Maintaining the confidentiality of your account credentials</li>
+    <li>All activities that occur under your account</li>
+    <li>Providing accurate and complete information</li>
+    <li>Being at least 13 years of age to use the App</li>
+  </ul>
+
+  <h2>4. User Content</h2>
+  <p>You retain ownership of content you post on Habex. By posting content, you grant Habex a non-exclusive, royalty-free license to use, display, and distribute your content within the App. You agree not to post content that is illegal, harmful, or violates others' rights.</p>
+
+  <h2>5. TikTok Integration</h2>
+  <p>Habex may offer features that allow you to connect your TikTok account to share fitness achievements and habits. By connecting your TikTok account, you authorize Habex to post content on your behalf according to the permissions you grant. You may revoke this access at any time through your account settings.</p>
+
+  <h2>6. Prohibited Conduct</h2>
+  <p>You agree not to:</p>
+  <ul>
+    <li>Use the App for any unlawful purpose</li>
+    <li>Harass, abuse, or harm other users</li>
+    <li>Post false or misleading information</li>
+    <li>Attempt to gain unauthorized access to the App or its systems</li>
+    <li>Use automated tools to interact with the App without permission</li>
+  </ul>
+
+  <h2>7. Intellectual Property</h2>
+  <p>The Habex name, logo, and all related marks are trademarks of Habex. The App's design, code, and content are protected by copyright and other intellectual property laws.</p>
+
+  <h2>8. Disclaimers</h2>
+  <p>The App is provided "as is" without warranties of any kind. Habex does not guarantee that the App will be error-free or uninterrupted. Fitness content and challenges in the App are for general wellness purposes and are not medical advice.</p>
+
+  <h2>9. Limitation of Liability</h2>
+  <p>To the maximum extent permitted by law, Habex shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the App.</p>
+
+  <h2>10. Changes to Terms</h2>
+  <p>We may update these Terms from time to time. We will notify you of significant changes through the App. Continued use of the App after changes constitutes acceptance of the new Terms.</p>
+
+  <h2>11. Contact Us</h2>
+  <p>For questions about these Terms, contact us at: legal@habexapp.com</p>
+</div>
+
+<!-- PRIVACY POLICY PAGE -->
+<div class="legal-page" id="privacy-page">
+  <button class="back-btn" onclick="showPage('home')">← Back to Habex</button>
+  <h1>Privacy Policy</h1>
+  <p class="legal-date">Last updated: January 1, 2025</p>
+
+  <h2>1. Introduction</h2>
+  <p>Habex ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and share information when you use the Habex mobile application.</p>
+
+  <h2>2. Information We Collect</h2>
+  <p>We collect the following types of information:</p>
+  <ul>
+    <li><strong style="color:#f0f0ff">Account Information:</strong> Name, email address, username, and profile photo</li>
+    <li><strong style="color:#f0f0ff">Fitness Data:</strong> Habit completions, streaks, workout check-ins, and running routes</li>
+    <li><strong style="color:#f0f0ff">Location Data:</strong> City-level location for leaderboards; precise location only when you use map features (with your permission)</li>
+    <li><strong style="color:#f0f0ff">Social Data:</strong> Crew memberships, friends list, and in-app messages</li>
+    <li><strong style="color:#f0f0ff">Device Information:</strong> Device type, operating system, and app version</li>
+    <li><strong style="color:#f0f0ff">Usage Data:</strong> How you interact with the App, features used, and time spent</li>
+  </ul>
+
+  <h2>3. TikTok Integration</h2>
+  <p>If you choose to connect your TikTok account, we may access and use your TikTok profile information and post content on your behalf as authorized by you. We only access TikTok data necessary to provide the integration features. You can disconnect your TikTok account at any time in settings.</p>
+
+  <h2>4. How We Use Your Information</h2>
+  <ul>
+    <li>To provide and improve the App's features</li>
+    <li>To display leaderboards and social features</li>
+    <li>To send notifications about your habits and activity</li>
+    <li>To analyze usage and improve user experience</li>
+    <li>To communicate with you about updates and new features</li>
+  </ul>
+
+  <h2>5. Sharing Your Information</h2>
+  <p>We do not sell your personal information. We may share your information with:</p>
+  <ul>
+    <li>Other users, for social features you participate in (leaderboards, crews, public profiles)</li>
+    <li>Service providers who help us operate the App</li>
+    <li>Law enforcement when required by law</li>
+  </ul>
+
+  <h2>6. Data Retention</h2>
+  <p>We retain your data as long as your account is active. You may delete your account at any time, which will remove your personal data from our systems within 30 days.</p>
+
+  <h2>7. Your Rights</h2>
+  <p>You have the right to:</p>
+  <ul>
+    <li>Access the personal data we hold about you</li>
+    <li>Request correction of inaccurate data</li>
+    <li>Request deletion of your data</li>
+    <li>Opt out of certain data uses</li>
+  </ul>
+
+  <h2>8. Children's Privacy</h2>
+  <p>The App is not intended for children under 13. We do not knowingly collect data from children under 13. If you believe a child has provided us with personal information, please contact us.</p>
+
+  <h2>9. Security</h2>
+  <p>We use industry-standard security measures to protect your data. However, no method of transmission over the internet is 100% secure.</p>
+
+  <h2>10. Changes to This Policy</h2>
+  <p>We may update this Privacy Policy periodically. We will notify you of significant changes through the App or via email.</p>
+
+  <h2>11. Contact Us</h2>
+  <p>For privacy-related questions, contact us at: privacy@habexapp.com</p>
+</div>
+
+<script>
+function showPage(page) {
+  document.getElementById('main-page').style.display = 'none';
+  document.getElementById('tos-page').classList.remove('active');
+  document.getElementById('privacy-page').classList.remove('active');
+
+  if (page === 'home') {
+    document.getElementById('main-page').style.display = 'block';
+    window.scrollTo(0, 0);
+  } else if (page === 'tos') {
+    document.getElementById('tos-page').classList.add('active');
+    window.scrollTo(0, 0);
+  } else if (page === 'privacy') {
+    document.getElementById('privacy-page').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+}
+</script>
+</body>
+</html>
